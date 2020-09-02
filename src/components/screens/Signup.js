@@ -11,11 +11,11 @@ const Signup = ()  => {
                             placeholder = "name"
                         />
                         <input 
-                            type= "text"
+                            type= "email"
                             placeholder = "email"
                         />
                         <input 
-                            type= "text"
+                            type= "password"
                             placeholder = "password"
                         />
                         <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"> 

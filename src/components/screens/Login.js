@@ -8,11 +8,11 @@ const Login = ()  => {
                     <div className = "card auth-card input-field">
                         <h2>Instagram</h2>
                         <input 
-                            type= "text"
+                            type= "email"
                             placeholder = "email"
                         />
                         <input 
-                            type= "text"
+                            type= "password"
                             placeholder = "password"
                         />
                         <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"> 
