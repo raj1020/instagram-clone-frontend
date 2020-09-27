@@ -1,6 +1,23 @@
-import React from 'react';
-
+import React, {useEffect, useState, useContext} from 'react';
+import {UserContext} from '../../App';
 const Profile = ()  => {
+
+    const [mypics, setPics] =useState([]);
+    const {state, dispatch} =  useContext(UserContext);
+
+    useEffect(() => {
+        fetch('/mypost', {
+            headers: {
+                "Authorization": "Bearer "+ localStorage.getItem("jwt")
+            }
+        }).then(res => res.json())
+        .then(result => {
+            console.log(result);
+            setPics(result.mypost);
+        })
+       
+    }, [])
+
         return (
             <div style = {{maxWidth: "550px", margin:"0px auto"}}>
                 <div style= {{
@@ -15,7 +32,7 @@ const Profile = ()  => {
                         alt= "pretty lady" />
                     </div>
                     <div>
-                        <h4>Harry Sharma</h4>
+                        <h4>{ state ? state.name : "loading" }</h4>
                         <div style= {{display:"flex", justifyContent: "space-between", width: "108%"}}>
 
                             <h5>40 posts</h5>
@@ -28,13 +45,11 @@ const Profile = ()  => {
 
 
                 <div className= "gallery">
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
-                    <img className= "item" src = "https://images.unsplash.com/photo-1522508115664-391162d98bd1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="Indian police in happy mood"/>
+
+                {mypics.map(item => {
+                    return <img key ={item._id} className= "item" src = {item.photo} alt={item.title}/>
+                })}
+                    
 
 
                 </div>
