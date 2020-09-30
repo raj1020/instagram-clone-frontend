@@ -112,7 +112,32 @@ const Home = ()  => {
             })
             setData(newData)
         })
-    }
+    };
+    const deleteComment = (postid, commentid) => {
+   
+        fetch(`/deletecomment/${postid}/${commentid}`, {
+          method: "delete",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log("result =" + result);
+                 const newData = data.map((item) => {
+    
+              if (item._id === result._id) {
+                  
+                         return result;
+                         
+              } else {
+                  console.log("item =" + item)
+                return item;
+              }
+            });
+            setData(newData);
+          });
+      };
         return (
            <div className="home">
            {
@@ -141,15 +166,36 @@ const Home = ()  => {
                             
                             
                             <h6>{item.likes.length} likes</h6>
+                            
                             <h6>{item.title}</h6>
                             <p>{item.body}</p>
                             {
                                 item.comments.map(record => {
                                     return(
-                                        <h6 key = {record._id}>
-                                            <span  style={{fontWeight:"500"}}>{record.postedBy.name}</span>
-                                            <span >{record.text}</span>
+                                        
+                                            
+                                        <h6 key={record._id}>
+                                            <span style={{ fontWeight: "500" }}>
+                                                {record.postedBy.name}
+                                            </span>{" "}
+                                            {record.text}
+                                            {(item.postedBy._id || record.postedBy._id) ===
+                                                state._id && (
+                                                <i
+                                                className="material-icons"
+                                                style={{
+                                                    float: "right",
+                                                }}
+                                                onClick={() => deleteComment(item._id, record._id)}
+                                                >
+                                                delete
+                                                </i>
+                                            )}
                                         </h6>
+
+                                        
+                                        
+                                        
                                     );
                                 })
                             }
