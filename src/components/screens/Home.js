@@ -84,7 +84,7 @@ const Home = ()  => {
             })
         }).then(res => res.json())
         .then(result => {
-            console.log(result);
+            
             const newData = data.map(item => {
                 if(item._id===result._id) {
                     return result;
@@ -113,31 +113,32 @@ const Home = ()  => {
             setData(newData)
         })
     };
-    const deleteComment = (postid, commentid) => {
-   
-        fetch(`/deletecomment/${postid}/${commentid}`, {
-          method: "delete",
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-        })
-          .then((res) => res.json())
-          .then((result) => {
-            console.log("result =" + result);
-                 const newData = data.map((item) => {
     
-              if (item._id === result._id) {
-                  
-                         return result;
-                         
-              } else {
-                  console.log("item =" + item)
-                return item;
-              }
-            });
-            setData(newData);
-          });
-      };
+    const deleteComment = (postId, commentId) => {
+        fetch(`/deleteComment/${postId}/${commentId}`, {
+            method: "delete",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt")
+            }
+            
+            })
+            .then(res => res.json())
+            .then(result => {
+                console.log("result =",result);
+                const newData = data.map((item => {
+                    if(item._id == result._id) {
+                        console.log("here is result")
+                        return result;
+                        
+                    } else {
+                        return item;
+                    }
+
+                }))
+                setData(newData);
+                
+        })
+    }
         return (
            <div className="home">
            {
@@ -168,7 +169,7 @@ const Home = ()  => {
                             <h6>{item.likes.length} likes</h6>
                             
                             <h6>{item.title}</h6>
-                            <p>{item.body}</p>
+                            <p>{item.body} </p> 
                             {
                                 item.comments.map(record => {
                                     return(
@@ -177,20 +178,21 @@ const Home = ()  => {
                                         <h6 key={record._id}>
                                             <span style={{ fontWeight: "500" }}>
                                                 {record.postedBy.name}
-                                            </span>{" "}
-                                            {record.text}
-                                            {(item.postedBy._id || record.postedBy._id) ===
-                                                state._id && (
-                                                <i
-                                                className="material-icons"
-                                                style={{
-                                                    float: "right",
-                                                }}
-                                                onClick={() => deleteComment(item._id, record._id)}
-                                                >
-                                                delete
-                                                </i>
-                                            )}
+                                                
+                                               
+                                                
+                                            </span>
+                                           
+                                            {record.text} 
+                                            { ((record.postedBy._id.toString() || item.postedBy._id.toString()) === state._id.toString()) &&  <i className="material-icons"
+                             onClick = {() => {deleteComment(item._id, record._id)}}
+                            >delete</i> 
+
+                                            }
+                                            
+
+                                           
+                                            
                                         </h6>
 
                                         
