@@ -13,7 +13,7 @@ const Home = ()  => {
             }
         }).then(res => res.json())
         .then(result => {
-            console.log(result);
+            // console.log(result);
             setData(result.posts);
         })
         
@@ -122,12 +122,16 @@ const Home = ()  => {
             }
             
             })
-            .then(res => res.json())
+             .then(res => res.json())
             .then(result => {
-                console.log("result =",result);
+
+               
+                 console.log("result =", result);
+               
+
                 const newData = data.map((item => {
-                    if(item._id == result._id) {
-                        console.log("here is result")
+                    if(item._id=== result._id) {
+                        
                         return result;
                         
                     } else {
@@ -135,70 +139,123 @@ const Home = ()  => {
                     }
 
                 }))
+               
+                //  console.log("newData = ", newData);
                 setData(newData);
+                
+                
                 
         })
     }
+
+    
+
+   
         return (
-           <div className="home">
+            <div className="home">
+            
+
            {
                data.map(item => {
-                   return (
+                return (
                     <div className="card home-card" key = {item._id}>
-                        <h5>{item.postedBy.name} {item.postedBy._id === state._id 
-                        && <i className="material-icons" 
-                        style={{float:"right"}}
-                        onClick={() => deletePost(item._id)}
-                            >delete</i> } </h5>
-                        <div className="card-image">
-                                <img src= {item.photo} alt={item.title} />
-                        </div>
-                        <div className="card-content">
+                        <h5>
+                        
+                        
+                            {item.postedBy.name} {item.postedBy._id === state._id 
+                            && <i className="material-icons" 
+                            style={{float:"right"}}
+                            onClick={() => deletePost(item._id)} >delete</i> } 
+                        </h5>
+                    <div className="card-image">
+                        <img src= {item.photo} alt={item.title} />
+                    </div>
+                    <div className="card-content">
                         <i className="material-icons" style={{color:"red"}}>favorite</i>
-                            {item.likes.includes(state._id) ?
-                                <i className="material-icons"
-                             onClick = {() => {unlikePost(item._id)}}
+                        {
+                            item.likes.includes(state._id) ?
+                            <i className="material-icons"
+                            onClick = {() => {unlikePost(item._id)}}
                             >thumb_down</i> :
 
                             <i className="material-icons"
                             onClick = {() => {likePost(item._id)}}
                             >thumb_up</i>
-                            }
+                        }
                             
                             
                             <h6>{item.likes.length} likes</h6>
-                            
                             <h6>{item.title}</h6>
                             <p>{item.body} </p> 
                             {
                                 item.comments.map(record => {
                                     return(
-                                        
-                                            
                                         <h6 key={record._id}>
                                             <span style={{ fontWeight: "500" }}>
-                                                {record.postedBy.name}
-                                                
-                                               
-                                                
-                                            </span>
-                                           
-                                            {record.text} 
-                                            { ((record.postedBy._id.toString() || item.postedBy._id.toString()) === state._id.toString()) &&  <i className="material-icons"
-                             onClick = {() => {deleteComment(item._id, record._id)}}
-                            >delete</i> 
+                                            {record.postedBy.name}
+                                            </span>{" "}
+                                             {/* {console.log("record.postedBy._id :", record.postedBy._id)}
+                                             {console.log("record.postedBy.name :", record.postedBy.name)} */}
 
+                                             {/* {console.log("record =", record)} */}
+                                            {record.text}
+
+                                            {/* {(record.postedBy._id  ||  item.postedBy._id) ===
+                                            state._id && (
+                                            <i
+                                            className="material-icons"
+                                            style={{
+                                            float: "right",
+                                            }}
+                                            onClick={() => deleteComment(item._id, record._id)}
+                                            >
+                                            delete
+                                            </i>
+                                            )} */}
+                                            {record.postedBy._id  === state._id ? 
+                                            (<i
+                                            className="material-icons"
+                                            style={{
+                                            float: "right",
+                                            }}
+                                            onClick={() => deleteComment(item._id, record._id)}
+                                            >
+                                            delete
+                                            </i>) :
+                                            
+                                            (item.postedBy._id  === state._id ? 
+                                            (<i
+                                            className="material-icons"
+                                            style={{
+                                            float: "right",
+                                            }}
+                                            onClick={() => deleteComment(item._id, record._id)}
+                                            >
+                                            delete
+                                            </i>) : null)
                                             }
-                                            
 
-                                           
+                                            {/* {record.postedBy._id  === state._id ? 
+                                            (<i
+                                            className="material-icons"
+                                            style={{
+                                            float: "right",
+                                            }}
+                                            onClick={() => deleteComment(item._id, record._id)}
+                                            >
+                                            delete  
+                                            </i>) : null
+
+                                            } */}
                                             
+                     
                                         </h6>
+                                        )
 
                                         
                                         
                                         
-                                    );
+                                    
                                 })
                             }
                             
