@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {UserContext} from '../../App';
+import {Link} from 'react-router-dom';
 
 const Home = ()  => {
 
@@ -140,7 +141,7 @@ const Home = ()  => {
 
                 }))
                
-                //  console.log("newData = ", newData);
+               
                 setData(newData);
                 
                 
@@ -160,9 +161,9 @@ const Home = ()  => {
                 return (
                     <div className="card home-card" key = {item._id}>
                         <h5>
-                        
-                        
-                            {item.postedBy.name} {item.postedBy._id === state._id 
+                           
+                            <Link to={item.postedBy._id !== state._id ?"/profile/"+item.postedBy._id :"/profile" }>{item.postedBy.name}</Link>
+                             {item.postedBy._id === state._id 
                             && <i className="material-icons" 
                             style={{float:"right"}}
                             onClick={() => deletePost(item._id)} >delete</i> } 
@@ -194,13 +195,10 @@ const Home = ()  => {
                                             <span style={{ fontWeight: "500" }}>
                                             {record.postedBy.name}
                                             </span>{" "}
-                                             {/* {console.log("record.postedBy._id :", record.postedBy._id)}
-                                             {console.log("record.postedBy.name :", record.postedBy.name)} */}
-
-                                             {/* {console.log("record =", record)} */}
+                                             
                                             {record.text}
 
-                                            {/* {(record.postedBy._id  ||  item.postedBy._id) ===
+                                            {(record.postedBy._id  ||  item.postedBy._id) ===
                                             state._id && (
                                             <i
                                             className="material-icons"
@@ -211,42 +209,10 @@ const Home = ()  => {
                                             >
                                             delete
                                             </i>
-                                            )} */}
-                                            {record.postedBy._id  === state._id ? 
-                                            (<i
-                                            className="material-icons"
-                                            style={{
-                                            float: "right",
-                                            }}
-                                            onClick={() => deleteComment(item._id, record._id)}
-                                            >
-                                            delete
-                                            </i>) :
+                                            )}
+                                           
+
                                             
-                                            (item.postedBy._id  === state._id ? 
-                                            (<i
-                                            className="material-icons"
-                                            style={{
-                                            float: "right",
-                                            }}
-                                            onClick={() => deleteComment(item._id, record._id)}
-                                            >
-                                            delete
-                                            </i>) : null)
-                                            }
-
-                                            {/* {record.postedBy._id  === state._id ? 
-                                            (<i
-                                            className="material-icons"
-                                            style={{
-                                            float: "right",
-                                            }}
-                                            onClick={() => deleteComment(item._id, record._id)}
-                                            >
-                                            delete  
-                                            </i>) : null
-
-                                            } */}
                                             
                      
                                         </h6>

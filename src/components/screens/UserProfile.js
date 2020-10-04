@@ -1,26 +1,32 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {UserContext} from '../../App';
+import { useParams } from 'react-router-dom';
+
+
 
 const Profile = ()  => {
 
-    const [mypics, setPics] =useState([]);
+    const [userProfile, setProfile] =useState(null);
     const {state, dispatch} =  useContext(UserContext);
+    const {userid } = useParams();
+   
 
     useEffect(() => {
-        fetch('/mypost', {
+        fetch(`/user/${userid}`, {
             headers: {
                 "Authorization": "Bearer "+ localStorage.getItem("jwt")
             }
         }).then(res => res.json())
         .then(result => {
+            console.log("result: ",result);
+            setProfile(result);
             
-           
-            setPics(result.mypost);
         })
        
     }, [])
 
         return (
+            <> {userProfile ?
             <div style = {{maxWidth: "550px", margin:"0px auto"}}>
                 <div style= {{
                     display: "flex",
@@ -34,10 +40,11 @@ const Profile = ()  => {
                         alt= "pretty lady" />
                     </div>
                     <div>
-                        <h4>{ state ? state.name : "loading" }</h4>
+                        <h4>{ userProfile.user.name }</h4>
+                        <h5>{ userProfile.user.email }</h5>
                         <div style= {{display:"flex", justifyContent: "space-between", width: "108%"}}>
 
-                            <h5>40 posts</h5>
+                            <h5>{userProfile.posts.length} posts</h5>
                             <h5>560 followers</h5>
                             <h5>401 following</h5>
 
@@ -48,7 +55,7 @@ const Profile = ()  => {
 
                 <div className= "gallery">
 
-                {mypics.map(item => {
+                {userProfile.posts.map(item => {
                     return <img key ={item._id} className= "item" src = {item.photo} alt={item.title}/>
                 })}
                     
@@ -56,6 +63,9 @@ const Profile = ()  => {
 
                 </div>
             </div>
+             :
+             <h5>Loading......</h5>} </>
+            
         )
 };
 
