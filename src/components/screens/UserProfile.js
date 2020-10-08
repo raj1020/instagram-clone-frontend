@@ -18,7 +18,7 @@ const Profile = ()  => {
             }
         }).then(res => res.json())
         .then(result => {
-            console.log("result: ",result);
+            //console.log("result: ",result);
             setProfile(result);
             
         })
@@ -39,6 +39,7 @@ const Profile = ()  => {
             })
         }).then(res=> res.json())
         .then(data => {
+            console.log("data =", data);
             dispatch({type: "UPDATE", payload: {following: data.following, followers: data.followers}})
             localStorage.setItem("user", JSON.stringify(data))
             setProfile((prevState) => {
@@ -50,7 +51,7 @@ const Profile = ()  => {
                     }
                 }
             })
-            setShowFollow(false)
+             setShowFollow(false)
         
         })
 
@@ -82,14 +83,15 @@ const Profile = ()  => {
                     }
                 }
             })
-            setShowFollow(true)
+             setShowFollow(true)
         
         })
 
     }
 
         return (
-            <> {userProfile ?
+            <> 
+            {userProfile ?
             <div style = {{maxWidth: "550px", margin:"0px auto"}}>
                 <div style= {{
                     display: "flex",
@@ -108,13 +110,18 @@ const Profile = ()  => {
                         <div style= {{display:"flex", justifyContent: "space-between", width: "108%"}}>
 
                             <h5>{userProfile.posts.length} posts</h5>
-                            <h5>45 followers</h5>
-                            <h5>401 following</h5>
+                            <h5>{userProfile.user.followers.length} followers</h5>
+                            <h5>{userProfile.user.following.length} following</h5>
+                            
+                           
+
 
                         </div>
                         {
                             showfollow?
-                            <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                            <button style={{
+                            margin:"10px"
+                            }} className="btn waves-effect waves-light #64b5f6 blue darken-1"
                             onClick={() => followUser()}
                         >
 
@@ -122,7 +129,10 @@ const Profile = ()  => {
                         </button> 
                         :
 
-                        <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                        <button
+                            style={{
+                        margin:"10px" }}
+                         className="btn waves-effect waves-light #64b5f6 blue darken-1"
                             onClick={() => unfollowUser()}
                         >
 
