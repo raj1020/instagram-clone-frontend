@@ -6,8 +6,7 @@ const Profile = ()  => {
     const [mypics, setPics] =useState([]);
     const {state, dispatch} =  useContext(UserContext);
     const [image, setImage] = useState("");
-    const [url, setUrl] = useState(undefined);
-
+    
     useEffect(() => {
         fetch('/mypost', {
             headers: {
@@ -34,13 +33,29 @@ const Profile = ()  => {
             })
             .then(res => res.json())
             .then(data => {
-                setUrl(data.url);
-                localStorage.setItem("user", JSON.stringify({...state, pic: data.url}))
-                dispatch({type:"UPDATEPIC", payload: data.url})
-                window.location.reload()
-            }).catch(err => {
-                console.log(err)
+                // localStorage.setItem("user", JSON.stringify({...state, pic: data.url}))
+                // dispatch({type:"UPDATEPIC", payload: data.url})
+                // window.location.reload()
+                fetch('/updatepic', {
+                    method: "put",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("jwt")
+                    },
+                    body: JSON.stringify({
+                        pic: data.url
+                    })
+                }) .then(res => res.json())
+                .then(result => {
+                    console.log("result =", result)
+                    localStorage.setItem("user", JSON.stringify({...state, pic: result.pic}))
+                    dispatch({type:"UPDATEPIC", payload: result.pic})
+                })
+
             })
+            .catch(err => {
+                console.log(err)
+            }) 
 
         }
 
@@ -64,6 +79,7 @@ const Profile = ()  => {
                    
                 }}>
                     <div>
+                    {/* {console.log("state = ", state)} */}
                         <img style = {{width: "160px", height: "160px", borderRadius: "80px"}}
                         src = {state? state.pic : "loading"}
                         alt= "profile pic" />
@@ -73,7 +89,7 @@ const Profile = ()  => {
                         <h5>{ state ? state.email : "loading" }</h5>
                         <div style= {{display:"flex", justifyContent: "space-between", width: "108%"}}>
 
-                            <h5>40 posts</h5>
+                            <h5>{mypics.length} posts</h5>
                             <h5>{ state ? state.followers.length : "loading" } followers</h5>
                             <h5>{ state ? state.following.length : "loading" } following</h5>
                             
