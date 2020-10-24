@@ -15,9 +15,12 @@ const Profile = ()  => {
         }).then(res => res.json())
         .then(result => {
             
-           
-            setPics(result.mypost);
+            console.log("result for myPost = ",  result)
+            setPics(result.mypost)
+                
+            
         })
+      
        
     }, [])
 
@@ -47,7 +50,7 @@ const Profile = ()  => {
                     })
                 }) .then(res => res.json())
                 .then(result => {
-                    console.log("result =", result)
+                    console.log("result for update pic =", result)
                     localStorage.setItem("user", JSON.stringify({...state, pic: result.pic}))
                     dispatch({type:"UPDATEPIC", payload: result.pic})
                 })
@@ -79,9 +82,12 @@ const Profile = ()  => {
                    
                 }}>
                     <div>
-                    {/* {console.log("state = ", state)} */}
+                    
+                    {console.log("state =", state)}
+                    {/* {console.log("image =", JSON.parse(image))} */}
                         <img style = {{width: "160px", height: "160px", borderRadius: "80px"}}
-                        src = {state? state.pic : "loading"}
+                        src = {state? state.pic
+                         : "loading"}
                         alt= "profile pic" />
                     </div>
                     <div>

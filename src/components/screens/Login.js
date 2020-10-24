@@ -33,6 +33,7 @@ const Login = ()  => {
             } else {
                 localStorage.setItem("jwt", data.token);
                 localStorage.setItem("user", JSON.stringify( data.user));
+                localStorage.setItem("pic", JSON.stringify( data.user.pic));
                 dispatch({type: 'USER', payload: data.user})
                 M.toast({html: "logged in successfully", classes: "#43a047 green darken-1"});
                 history.push('/');
