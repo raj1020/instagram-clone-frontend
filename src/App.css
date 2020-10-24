@@ -67,4 +67,15 @@ a{
 .collection-item{
   width: 100%;
 }
-
+.post-top{
+  max-height: 80px;
+ 
+  
+}
+.image-in-circle{
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  vertical-align: middle; 
+  
+}

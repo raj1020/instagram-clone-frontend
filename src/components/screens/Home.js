@@ -14,7 +14,7 @@ const Home = ()  => {
             }
         }).then(res => res.json())
         .then(result => {
-            // console.log(result);
+            console.log("result= ", result);
             setData(result.posts);
         })
         
@@ -160,14 +160,21 @@ const Home = ()  => {
                data.map(item => {
                 return (
                     <div className="card home-card" key = {item._id}>
+                        <div className="post-top">
+
                         <h5 style={{padding: "5px"}}>
-                           
-                            <Link to={item.postedBy._id !== state._id ?"/profile/"+item.postedBy._id :"/profile" }>{item.postedBy.name}</Link>
+                           {/* {console.log("item = ", item)} */}
+                            <Link to={item.postedBy._id !== state._id ?"/profile/"+item.postedBy._id :"/profile" }>
+                            <img src={item.postedBy.pic} alt="" className="image-in-circle"></img>
+                            {item.postedBy.name}</Link>
                              {item.postedBy._id === state._id 
                             && <i className="material-icons" 
                             style={{float:"right"}}
                             onClick={() => deletePost(item._id)} >delete</i> } 
                         </h5>
+
+                        </div>
+                       
                     <div className="card-image">
                         <img src= {item.photo} alt={item.title} />
                     </div>
